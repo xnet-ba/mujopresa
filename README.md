@@ -68,3 +68,115 @@ Osnovni MujoPresa pipeline:
                  ┌──────────────────┐
                  │   .MUJO ARCHIVE  │
                  └──────────────────┘
+
+
+▶️ Korištenje
+
+Kompresija: python3 mujopresa.py compress -i input.txt
+Dobija se: input.txt.mujo
+
+Dekompresija: python3 mujopresa.py decompress -i input.txt.mujo
+
+Metapodaci se mogu pregledati bez dekompresije: python3 mujopresa.py info -i input.txt.mujo
+
+
+⚡ Cython ubrzanje
+
+MujoPresa prvo pokušava koristiti Cython backend.
+Ako su dostupni:
+
+-Cython
+-Python development headers
+-C/C++ compiler
+
+jezgro se automatski kompajlira i koristi kao ubrzana implementacija.
+
+Ako Cython ili kompajler nisu dostupni, MujoPresa automatski prelazi na čisti Python backend.
+
+Cython + C compiler
+        │
+        ├── DA ──► ubrzano C jezgro
+        │
+        └── NE ──► Python fallback
+
+
+📦 Instalacija
+
+Potrebno je: Python3
+
+Preporučeno za ubrzano jezgro: pip install cython
+
+Opcionalni engine-i:
+pip install zstandard
+pip install brotli
+
+
+📁 .mujo format
+
+MujoPresa koristi vlastiti arhivski format sa magic oznakom: MUJO
+
+Arhiva sadrži osnovne metapodatke potrebne za dekodiranje, originalno ime fajla, compression podatke i CRC32 checksum.
+
+Tipična ekstenzija: .mujo
+
+
+🔐 Integritet
+
+MujoPresa koristi CRC32 za provjeru integriteta rekonstruisanih podataka.
+Ako checksum ne odgovara, dekompresija završava greškom:
+
+[KRITICNO] Provjera integriteta neuspjela.
+
+CRC32 je namijenjen prvenstveno detekciji slučajne korupcije podataka, a ne kriptografskoj zaštiti.
+
+
+📊 Cilj projekta
+
+MujoPresa je prvenstveno istraživački i eksperimentalni compression projekat.
+
+Cilj je istraživati kombinaciju:
+
+-LZ77
+-adaptivnog statističkog modeliranja
+-order-N konteksta
+-Fenwick struktura
+-range codinga
+-rep-distance predikcije
+-lazy matchinga
+-Cython optimizacije
+-paralelne kompresije
+
+
+⚠️ Status
+
+MujoPresa je trenutno eksperimentalni razvojni projekat.
+Ne treba ga posmatrati kao zamjenu za dobro testirane standardne formate kao što su:
+
+-Zstandard
+-LZMA/XZ
+-Brotli
+
+Rezultate treba porediti benchmark testovima na različitim vrstama podataka.
+
+
+🧪 Planirani razvoj
+
+Mogući budući razvoj:
+
+streaming compression/decompression
+veći i fleksibilniji window
+bolji match finder
+optimal parsing
+napredniji distance model
+bolji rep cache
+Order-3/Order-4 modeli
+bolji context mixing
+multithreaded decompression
+metadata versioning
+jači integrity hash
+benchmark suite
+fuzz testing
+archive recovery
+self-test mode
+GUI/web interface
+
