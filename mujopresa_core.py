@@ -9,7 +9,7 @@ from typing import Tuple
 
 CYTHON_ACTIVE = False
 
-__version__ = "1.3.0"
+__version__ = "1.4.0"
 
 # -----------------------------------------------------------------
 # Constants
@@ -255,8 +255,14 @@ class FenwickModel:
         return symbol, cum, freq
 
     def update(self, symbol: int):
-        self._add(symbol, self.increment)
-        self.total += self.increment
+        i = symbol + 1
+        n = self.size
+        tree = self.tree
+        delta = self.increment
+        while i <= n:
+            tree[i] += delta
+            i += i & (-i)
+        self.total += delta
         if self.total > (self.max_total * 4):
             self._half_life()
 

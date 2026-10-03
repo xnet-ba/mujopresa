@@ -400,6 +400,8 @@ def main():
     p.add_argument('input', help='Archive file')
     p.add_argument('--verbose', '-v', action='store_true')
 
+    p = sub.add_parser('selftest', help='Quick engine roundtrip check')
+
     args = parser.parse_args()
 
     if args.mode == 'create':
@@ -420,7 +422,29 @@ def main():
         )
     elif args.mode in ('list', 'ls'):
         return list_archive(args.input, verbose=args.verbose)
+    elif args.mode == 'selftest':
+        return selftest()
 
+    return 0
+
+
+def selftest() -> int:
+    import random
+    rng = random.Random(12345)
+    cases = [
+        b'',
+        bytes(64),
+        b'hello world ' * 100,
+        bytes(rng.randrange(256) for _ in range(5000)),
+    ]
+    for i, data in enumerate(cases):
+        comp = compress_bytes(data, 15, 16)
+        out = bytes(decompress_bytes(comp, len(data), 15))
+        if out != data:
+            print(f'[-] selftest case {i}: FAIL')
+            return 1
+        print(f'[+] case {i}: {len(data)} -> {len(comp)} OK')
+    print('[OK] selftest passed')
     return 0
 
 
