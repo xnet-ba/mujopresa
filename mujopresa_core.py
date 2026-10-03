@@ -9,7 +9,7 @@ from typing import Tuple
 
 CYTHON_ACTIVE = False
 
-__version__ = "1.2.0"
+__version__ = "1.3.0"
 
 # -----------------------------------------------------------------
 # Constants
@@ -248,7 +248,9 @@ class FenwickModel:
         symbol = idx
         if symbol >= size:
             symbol = size - 1
-        cum = self._prefix_sum(symbol)
+            cum = self._prefix_sum(symbol)
+        else:
+            cum = target - remaining
         freq = self._prefix_sum(symbol + 1) - cum
         return symbol, cum, freq
 
@@ -524,8 +526,9 @@ def decompress_bytes(payload: bytes, original_size: int, window_bits: int) -> by
     models = Models()
     decoder = RangeDecoder(payload)
     out = bytearray()
+    out_len = 0
 
-    while len(out) < original_size:
+    while out_len < original_size:
         rep_flag = decode_symbol(decoder, models.rep_flag)
         if rep_flag == 1:
             rep_idx = decode_symbol(decoder, models.rep_index)
@@ -539,6 +542,7 @@ def decompress_bytes(payload: bytes, original_size: int, window_bits: int) -> by
             flag = decode_symbol(decoder, models.flag)
             if flag == LITERAL:
                 out.append(literal_model_decode(decoder, models.literal))
+                out_len += 1
                 continue
             else:
                 length_sym = decode_symbol(decoder, models.length)
@@ -556,18 +560,21 @@ def decompress_bytes(payload: bytes, original_size: int, window_bits: int) -> by
                     distance = 1
                 models.update_rep_cache(distance)
 
-        start = len(out) - distance
+        start = out_len - distance
         if start < 0:
-            raise ValueError(f"Distance {distance} > output size {len(out)}")
+            raise ValueError(f"Distance {distance} > output size {out_len}")
         if distance >= length:
             end = start + length
-            if end > len(out):
+            if end > out_len:
                 raise ValueError("Match out of bounds")
             out.extend(out[start:end])
         else:
             for i in range(length):
-                if start + i >= len(out):
+                if start + i >= out_len:
                     raise ValueError("Match out of bounds")
                 out.append(out[start + i])
+                out_len += 1
+            continue
+        out_len += length
 
     return out
