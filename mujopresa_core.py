@@ -9,7 +9,7 @@ from typing import Tuple
 
 CYTHON_ACTIVE = False
 
-__version__ = "1.1.0"
+__version__ = "1.2.0"
 
 # -----------------------------------------------------------------
 # Constants
@@ -289,8 +289,9 @@ class LZMatcher:
         self.prev = [-1] * self.n if self.n else []
 
     def insert(self, i: int):
+        data = self.data
         if i + 4 <= self.n:
-            h = _hash4(self.data, i)
+            h = ((data[i] << 24) | (data[i+1] << 16) | (data[i+2] << 8) | data[i+3]) * 2654435761 & 0xFFFFFFFF
             self.prev[i] = self.head.get(h, -1)
             self.head[h] = i
 
@@ -300,7 +301,7 @@ class LZMatcher:
         mv = self.mv
         if pos + 4 > n:
             return 0, 0
-        h = _hash4(data, pos)
+        h = ((data[pos] << 24) | (data[pos+1] << 16) | (data[pos+2] << 8) | data[pos+3]) * 2654435761 & 0xFFFFFFFF
         candidate = self.head.get(h, -1)
         best_len = 0
         best_dist = 0
@@ -496,8 +497,16 @@ def compress_bytes(data: bytes, window_bits: int, max_chain: int = 32,
                 if use_repcache:
                     models.update_rep_cache(match_dist)
 
-            for i in range(pos, pos + match_len):
-                matcher.insert(i)
+            if match_len < 32:
+                for i in range(pos, pos + match_len):
+                    matcher.insert(i)
+            else:
+                for i in range(pos, pos + 8):
+                    matcher.insert(i)
+                for i in range(pos + 8, pos + match_len - 8, 2):
+                    matcher.insert(i)
+                for i in range(pos + match_len - 8, pos + match_len):
+                    matcher.insert(i)
             pos += match_len
         else:
             encode_symbol(encoder, models.rep_flag, 0)
