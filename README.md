@@ -180,3 +180,11 @@ archive recovery
 self-test mode
 GUI/web interface
 
+
+## v1.1.0 – modularno jezgro
+
+- `mujopresa_core.py` – stabilno LZ77 + range coding jezgro (v1.1.0)
+- `muj.py` – `.muj` arhiver (`create` / `extract` / `list`)
+- `benchmark.py` – poređenje sa gzip / bzip2 / zip / zstd
+- `mujopresa.py` – legacy monolit, ostaje radi kompatibilnosti
+
