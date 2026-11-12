@@ -1,3 +1,19 @@
+<!-- xnet-ba-matrix-header-v1 -->
+<div align="center">
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=00FF41&height=140&section=header&text=mujopresa&fontColor=000000&fontSize=42&fontAlignY=32&desc=eksperimentalni%20lossless%20kompresor%20napisan%20u%20Pythonu&descAlignY=55" width="100%" alt="mujopresa"/>
+
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&size=16&duration=2800&pause=800&color=00FF41&center=true&vCenter=true&width=700&lines=xnet-ba+%3A%3A+open-source+AI+iz+BiH;citaj+README+pa+pokreni;PR+dobrodosli)](https://github.com/xnet-ba/mujopresa)
+
+[![Stars](https://img.shields.io/github/stars/xnet-ba/mujopresa?style=flat-square&color=00FF41&labelColor=000000)](https://github.com/xnet-ba/mujopresa/stargazers)
+[![License](https://img.shields.io/github/license/xnet-ba/mujopresa?style=flat-square&color=00FF41&labelColor=000000)](LICENSE)
+[![Top lang](https://img.shields.io/github/languages/top/xnet-ba/mujopresa?style=flat-square&color=00FF41&labelColor=000000)](https://github.com/xnet-ba/mujopresa)
+[![Last commit](https://img.shields.io/github/last-commit/xnet-ba/mujopresa?style=flat-square&color=00FF41&labelColor=000000)](https://github.com/xnet-ba/mujopresa/commits)
+[![matrix](https://img.shields.io/badge/MATRIX-xnet--ba-00FF41?style=flat-square&labelColor=000000)](https://github.com/xnet-ba)
+
+</div>
+
+---
 # MujoPresa
 
 MujoPresa je eksperimentalni lossless kompresor napisan u Pythonu, koji kombinuje LZ77 algoritam, adaptivno statističko modeliranje i range coding.
@@ -188,3 +204,9 @@ GUI/web interface
 - `benchmark.py` – poređenje sa gzip / bzip2 / zip / zstd
 - `mujopresa.py` – legacy monolit, ostaje radi kompatibilnosti
 
+---
+
+<div align="center">
+<img src="https://raw.githubusercontent.com/xnet-ba/xnet-ba/main/assets/divider.svg" width="100%" alt=""/>
+<sup>part of <a href="https://github.com/xnet-ba">xnet-ba matrix</a> — open-source AI iz BiH</sup>
+</div>
