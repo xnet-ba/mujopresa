@@ -35,21 +35,6 @@ Projekat je dizajniran kao samostalni kompresor sa vlastitim `.mujo` arhivskim f
 - [v1.1.0 – modularno jezgro](#v110--modularno-jezgro)
 
 
-## Sadržaj
-
-- [🚀 Glavne karakteristike](#-glavne-karakteristike)
-- [🧠 Kako radi](#-kako-radi)
-- [▶️ Korištenje](#-korištenje)
-- [⚡ Cython ubrzanje](#-cython-ubrzanje)
-- [📦 Instalacija](#-instalacija)
-- [📁 .mujo format](#-mujo-format)
-- [🔐 Integritet](#-integritet)
-- [📊 Cilj projekta](#-cilj-projekta)
-- [⚠️ Status](#-status)
-- [🧪 Planirani razvoj](#-planirani-razvoj)
-- [v1.1.0 – modularno jezgro](#v110--modularno-jezgro)
-
-
 ## 🚀 Glavne karakteristike
 
 - LZ77 kompresija
@@ -77,7 +62,6 @@ Projekat je dizajniran kao samostalni kompresor sa vlastitim `.mujo` arhivskim f
 
 Osnovni MujoPresa pipeline:
 
-```
 ```
                   ┌──────────────────┐
                   │      INPUT       │
@@ -117,22 +101,17 @@ Osnovni MujoPresa pipeline:
                  │   .MUJO ARCHIVE  │
                  └──────────────────┘
 ```
-```
 
 
 ## ▶️ Korištenje
 
 ```bash
-```bash
 Kompresija: python3 mujopresa.py compress -i input.txt
 Dobija se: input.txt.mujo
 ```
-```
 
 ```bash
-```bash
 Dekompresija: python3 mujopresa.py decompress -i input.txt.mujo
-```
 ```
 
 Metapodaci se mogu pregledati bez dekompresije: python3 mujopresa.py info -i input.txt.mujo
@@ -153,12 +132,10 @@ Ako Cython ili kompajler nisu dostupni, MujoPresa automatski prelazi na čisti P
 
 Cython + C compiler
 ```
-```
         │
         ├── DA ──► ubrzano C jezgro
         │
         └── NE ──► Python fallback
-```
 ```
 
 
@@ -170,14 +147,10 @@ Preporučeno za ubrzano jezgro: pip install cython
 
 Opcionalni engine-i:
 ```bash
-```bash
 pip install zstandard
 ```
-```
-```bash
 ```bash
 pip install brotli
-```
 ```
 
 
@@ -196,9 +169,7 @@ MujoPresa koristi CRC32 za provjeru integriteta rekonstruisanih podataka.
 Ako checksum ne odgovara, dekompresija završava greškom:
 
 ```text
-```text
 [KRITICNO] Provjera integriteta neuspjela.
-```
 ```
 
 CRC32 je namijenjen prvenstveno detekciji slučajne korupcije podataka, a ne kriptografskoj zaštiti.
